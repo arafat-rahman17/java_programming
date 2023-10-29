@@ -1,0 +1,124 @@
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import javax.swing.Timer;
+
+public class Arafat extends JFrame {
+
+    private JPanel contentPane;
+    private Timer colorChangeTimer;
+    private Random random = new Random();
+    private int red, green, blue;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Arafat frame = new Arafat();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public Arafat() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 450, 300);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(new BorderLayout(0, 0));
+        setContentPane(contentPane);
+
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        // File Menu
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+
+        JMenuItem openMenuItem = new JMenuItem("Open");
+        JMenuItem saveMenuItem = new JMenuItem("Save");
+        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        fileMenu.add(openMenuItem);
+        fileMenu.add(saveMenuItem);
+        fileMenu.addSeparator(); // Add a separator
+        fileMenu.add(exitMenuItem);
+
+        // Home Menu
+        JMenu homeMenu = new JMenu("Home");
+        menuBar.add(homeMenu);
+
+        // Share Menu
+        JMenu shareMenu = new JMenu("Share");
+        menuBar.add(shareMenu);
+
+        // Views Menu
+        JMenu viewsMenu = new JMenu("Views");
+        menuBar.add(viewsMenu);
+
+        // Submenus for different view modes
+        JMenu smallIconsSubMenu = new JMenu("Small Icons");
+        JMenu tilesSubMenu = new JMenu("Tiles");
+        JMenu listSubMenu = new JMenu("List");
+        JMenu detailsSubMenu = new JMenu("Details");
+        JMenu extraLargeIconsSubMenu = new JMenu("Extra Large Icons");
+
+        // Add submenus to the Views menu
+        viewsMenu.add(smallIconsSubMenu);
+        viewsMenu.add(tilesSubMenu);
+        viewsMenu.add(listSubMenu);
+        viewsMenu.add(detailsSubMenu);
+        viewsMenu.add(extraLargeIconsSubMenu);
+
+        // Taskbar Menu
+        JMenu taskbarMenu = new JMenu("Taskbar");
+        menuBar.add(taskbarMenu);
+
+        // Create a new window
+        JMenuItem newWindowMenuItem = new JMenuItem("New Window");
+        newWindowMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                createNewWindow();
+            }
+        });
+        taskbarMenu.add(newWindowMenuItem);
+
+        setTitle("Arafat Rahman");
+
+        ImageIcon icon = new ImageIcon("logo.png");
+        setIconImage(icon.getImage());
+        red = random.nextInt(256);
+        green = random.nextInt(256);
+        blue = random.nextInt(256);
+
+        colorChangeTimer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                contentPane.setBackground(new Color(red, green, blue));
+                red = random.nextInt(256);
+                green = random.nextInt(256);
+                blue = random.nextInt(256);
+            }
+        });
+        colorChangeTimer.start();
+    }
+
+    private void createNewWindow() {
+        JFrame newWindow = new JFrame("New Window");
+        newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newWindow.setBounds(50, 50, 400, 200);
+        newWindow.setVisible(true);
+    }
+}
